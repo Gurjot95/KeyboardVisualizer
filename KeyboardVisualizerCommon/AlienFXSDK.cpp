@@ -70,6 +70,7 @@ bool AlienFXSDK::SetLEDs(COLORREF pixels[64][256]) {
 		unsigned int numDevs = 0;
 		result = getNumDevicesFunction(&numDevs);
 
+		//Get number of devices (usually its 1) and loop through number of lights each device has
 		for (unsigned int devIndex = 0; devIndex < numDevs; devIndex++) {
 			unsigned int numLights = 0;
 			result = getNumLightsFunction(devIndex, &numLights);
@@ -90,6 +91,10 @@ bool AlienFXSDK::SetLEDs(COLORREF pixels[64][256]) {
 			//Example which sets 2 colors across all LED's for each odd and even index
 			for (unsigned int lightIndex = 0; lightIndex < numLights; lightIndex++)
 				setLightColorFunction(devIndex, lightIndex, (lightIndex % 2 == 0) ? &color1 : &color2);
+
+			//For more advanced method to change color effects such as Pulse (Blinking) or Morph (transition of one color to another)
+			//setlightActionColor(devIndex, lightIndex, LFX_ACTION_PULSE, &color1); //Blinking Effect
+			//setlightActionColorEx(devIndex, lightIndex, LFX_ACTION_MORPH, &color1,&color2);	//Transition of color1 to color2
 			
 		}
 		result = updateFunction();
