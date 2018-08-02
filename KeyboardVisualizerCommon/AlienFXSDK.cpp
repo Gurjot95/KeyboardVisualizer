@@ -49,19 +49,21 @@ void AlienFXSDK::Initialize() {
 
 }
 
-bool AlienFXSDK::SetLEDs(COLORREF pixels[64][256]) {
+bool AlienFXSDK::SetLEDs(COLORREF pixels[64][256]) { 
 	if (result == LFX_SUCCESS) {
 		result = setTiming(100);
 		result = resetFunction();
-		COLORREF single_color = pixels[ROW_IDX_SINGLE_COLOR][0];
-		//Keyboard Left
-		result = lightFunction(LFX_FRONT_LOWER_LEFT, 0x00DD0EAA | LFX_FULL_BRIGHTNESS);
-		
-		//Keyboard Right
-		result = lightFunction(LFX_FRONT_LOWER_RIGHT, LFX_YELLOW | LFX_FULL_BRIGHTNESS);
+		//COLORREF single_color = pixels[ROW_IDX_SINGLE_COLOR][0];
 
-		//Keyboard Center
-		result = lightFunction(LFX_FRONT_LOWER_CENTER, 0x000EDDAA | LFX_FULL_BRIGHTNESS);
+		//Solid Colors Example on Left Keyboard Zone
+		result = lightFunction(LFX_FRONT_LOWER_LEFT, LFX_GREEN | LFX_FULL_BRIGHTNESS);
+	
+
+		//This is Pulse Effect example on Center Zone
+		result = lightActionColorFunction(LFX_FRONT_LOWER_CENTER, LFX_ACTION_PULSE, LFX_CYAN | LFX_FULL_BRIGHTNESS);
+		Sleep(5000);
+		//This is Morph Effect (transisiton of one color to another) Example on Right Zone
+		result = lightActionColorExFunction(LFX_FRONT_LOWER_RIGHT, LFX_ACTION_MORPH, LFX_RED | LFX_FULL_BRIGHTNESS, LFX_BLUE | LFX_FULL_BRIGHTNESS);
 		result = updateFunction();
 		return true;
 	} else {
